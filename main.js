@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/GLTFLoader.js';
 import { GUI } from 'three/addons/lil-gui.module.min.js';
-let container, gui;
-let camera, scene, renderer;
+let container, gui, camera, scene, renderer;
 
 gui = new GUI();
 var parameters = 
@@ -20,8 +19,7 @@ function init() {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
-	camera.position.set( - 5, 3, 10 );
-	camera.lookAt( new THREE.Vector3( 0, 2, 0 ) );
+	camera.position.set(-13, 0, 20 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x111111 );
     //scene.fog = new THREE.FogExp2( 0xaaccff, 0.0007 );
@@ -50,149 +48,146 @@ function init() {
     //Game social
     const loaderITCH = new GLTFLoader().setPath( 'models/' );
     loaderITCH.load( 'ITCHioObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.position.set(-2,0,0);
         model.scale.set(.8,.8,.8);
         model.name = 'ITCHioLink';
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderGamejolt = new GLTFLoader().setPath( 'models/' );
     loaderGamejolt.load( 'GamejoltObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'GamejoltLink';
         model.position.set(-0.5,0,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderIndieDB = new GLTFLoader().setPath( 'models/' );
     loaderIndieDB.load( 'IndieDBObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'IndieDBLink';
         model.position.set(1,0,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderPlaystore = new GLTFLoader().setPath( 'models/' );
     loaderPlaystore.load( 'PlayStoreObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'PlayStoreLink';
         model.position.set(2.5,0,0);
         model.scale.set(.6,.6,.6);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     //Art social
     const loaderSketchfab = new GLTFLoader().setPath( 'models/' );
     loaderSketchfab.load( 'SketchfabObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'SketchfabLink';
         model.position.set(-2,-1.5,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     //Sound social
     const loaderSoundcloud = new GLTFLoader().setPath( 'models/' );
     loaderSoundcloud.load( 'SoundcloudObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'SoundcloudLink';
         model.position.set(-.7,-1.5,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     //Social media
     const loaderGgDrive = new GLTFLoader().setPath( 'models/' );
     loaderGgDrive.load( 'GgDriveObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'GgDriveLink';
         model.position.set(1,-1.5,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderYoutube = new GLTFLoader().setPath( 'models/' );
     loaderYoutube.load( 'YoutubeObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'YoutubeLink';
         model.position.set(2.4,-1.5,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderFb = new GLTFLoader().setPath( 'models/' );
     loaderFb.load( 'FbObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'FbLink';
         model.position.set(-2,-3,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderX = new GLTFLoader().setPath( 'models/' );
     loaderX.load( 'XObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'XLink';
         model.position.set(-.7,-3,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderMastodon = new GLTFLoader().setPath( 'models/' );
     loaderMastodon.load( 'MastodonObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'MastodonLink';
         model.position.set(1,-3,0);
         model.scale.set(.6,.6,.6);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderBluesky = new GLTFLoader().setPath( 'models/' );
     loaderBluesky.load( 'BlueskyObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'BlueskyLink';
         model.position.set(2.4,-3,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderReddit = new GLTFLoader().setPath( 'models/' );
     loaderReddit.load( 'RedditObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'RedditLink';
         model.position.set(-2.2,2,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     const loaderGithub = new GLTFLoader().setPath( 'models/' );
     loaderGithub.load( 'GithubObj.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.name = 'GithubLink';
         model.position.set(1.7,2,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
+    } );
+    //lazy position
+    const loaderDeviantart = new GLTFLoader().setPath( 'models/' );
+    loaderDeviantart.load( 'DeviantartObj.glb', async function ( gltf ) {
+        const model = gltf.scene;
+        model.name = 'DeviantartLink';
+        model.position.set(0+-1,0+-4.8,0);
+        await renderer.compileAsync( model, camera, scene );
+        scene.add( model );
+    } );
+    const loaderTumblr = new GLTFLoader().setPath( 'models/' );
+    loaderTumblr.load( 'TumblrObj.glb', async function ( gltf ) {
+        const model = gltf.scene;
+        model.name = 'TumblrLink';
+        model.position.set(0,0+-4.8,0);
+        await renderer.compileAsync( model, camera, scene );
+        scene.add( model );
+    } );
+    const loaderVimeo = new GLTFLoader().setPath( 'models/' );
+    loaderVimeo.load( 'VimeoObj.glb', async function ( gltf ) {
+        const model = gltf.scene;
+        model.name = 'VimeoLink';
+        model.position.set(0+1.3,0+-4.8,0);
+        await renderer.compileAsync( model, camera, scene );
+        scene.add( model );
     } );
     
     //Link
@@ -251,6 +246,15 @@ function init() {
                 case "BlueskyLink":
                     window.open('https://bsky.app/profile/abczezeze.bsky.social', '_blank');
                     break;
+                case "DeviantartLink":
+                    window.open('https://www.deviantart.com/abc3dz', '_blank');
+                    break;
+                case "TumblrLink":
+                    window.open('https://www.tumblr.com/abczezeze', '_blank');
+                    break;
+                case "VimeoLink":
+                    window.open('https://vimeo.com/user84261275', '_blank');
+                    break;
                 default:
                     console.log('No action assigned for this object.');
             }
@@ -266,8 +270,6 @@ function init() {
     container.appendChild( renderer.domElement );
     
     const controls = new OrbitControls( camera, renderer.domElement );
-    controls.target.set( -0.7, 1, 0 );
-    //controls.enableRotate = false;
     controls.update();
     //console.log(controls);
 
@@ -277,14 +279,14 @@ function init() {
     var listener = new THREE.AudioListener();
     var sound = new THREE.Audio( listener );
     var audioLoader = new THREE.AudioLoader();
-    audioLoader.load( './sounds/Re&Ha.mp3', function( buffer ) {
+    audioLoader.load('./sounds/Re&Ha.mp3', function( buffer ) {
             sound.setBuffer( buffer );
             sound.setLoop( true );
             sound.setVolume( 0.1 );
             sound.play();
     });
     var sound2 = new THREE.Audio( listener );
-    audioLoader.load( './sounds/FaDdd.mp3', function( buffer ) {
+    audioLoader.load('./sounds/FaDdd.mp3', function( buffer ) {
         sound2.setBuffer( buffer );
         sound2.setLoop( true );
         sound2.setVolume( 0.0 );
@@ -294,25 +296,18 @@ function init() {
     var volumeFolder = gui.title('Sound Volume'); //.addFolder( 'Sound volume' );
     volumeFolder.add( parameters, 'Audio1' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
                         sound.setVolume( parameters.Audio1 );
-            } );
+                    } );
     volumeFolder.add( parameters, 'Audio2' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
                         sound2.setVolume( parameters.Audio2 );
                     } );
 }
 
-
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 }
 
-//
-
 function animate() {
-    
     renderer.render( scene, camera );
 }
