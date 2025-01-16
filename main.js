@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/GLTFLoader.js';
 import { GUI } from 'three/addons/lil-gui.module.min.js';
 import Stats from 'three/addons/stats.module.js';
-let container, gui, camera, scene, renderer, stats;
+let container, gui, camera, scene, renderer, stats, controls;
 let lastUpdate = Date.now();
 const gridSize = 3;
 const totalFrames = 9;
@@ -11,7 +11,7 @@ let currentFrame = 0;
 let frameDuration = 700;
 let textureStuff, animatedMesh;
 let dirY = [-4,-3,-2,-1,0,1,2,3,4];
-let dirLight;
+
 
 gui = new GUI();
 var parameters = 
@@ -37,20 +37,18 @@ function init() {
 	hemiLight.position.set( 0, 0, 0 );
 	scene.add( hemiLight );
 
-	dirLight = new THREE.DirectionalLight( 0xffffff );
+	let dirLight = new THREE.DirectionalLight( 0xffffff );
 	dirLight.position.set( 0, 0, 1 );
 	scene.add( dirLight );		
 
 	// model
     const loaderABCzezeze = new GLTFLoader().setPath( 'models/' );
     loaderABCzezeze.load( 'Abczezeze.glb', async function ( gltf ) {
-
         const model = gltf.scene;
         model.position.set(0,2,0);
         model.scale.set(1.7,1.7,1.7);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
-
     } );
     //Game social
     const loaderITCH = new GLTFLoader().setPath( 'models/' );
@@ -275,7 +273,9 @@ function init() {
     renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild( renderer.domElement );
     
-    const controls = new OrbitControls( camera, renderer.domElement );
+    controls = new OrbitControls( camera, renderer.domElement );
+    console.log(controls);
+    controls.autoRotate = true;
     controls.update();
 
     stats = new Stats();
@@ -309,24 +309,41 @@ function init() {
                         sound2.setVolume( parameters.Audio2 );
     } );
 
-    // textureStuff = new THREE.TextureLoader().load('./img/stuff-min.png', (tex) => {
-    //     tex.wrapS = THREE.RepeatWrapping;
-    //     tex.wrapT = THREE.RepeatWrapping;
+    textureStuff = new THREE.TextureLoader().load('./img/stuff-min.png', (tex) => {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
       
-    //     tex.repeat.set(1 / gridSize, 1 / gridSize); 
+        tex.repeat.set(1 / gridSize, 1 / gridSize); 
 
-    //     const geometry = new THREE.PlaneGeometry(4, 3);
-    //     const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide , map: tex });
-    //     animatedMesh = new THREE.Mesh(geometry, material);
-    //     animatedMesh.position.set(0,0,-3)
-    //     scene.add(animatedMesh);
-    // })
+        const geometry = new THREE.PlaneGeometry(4, 3);
+        const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide , map: tex });
+        animatedMesh = new THREE.Mesh(geometry, material);
+        animatedMesh.position.set(0,0,-3)
+        scene.add(animatedMesh);
+    })
 
     //Thai art
     const loaderKrajangYai = new GLTFLoader().setPath( 'models/' );
     loaderKrajangYai.load( 'LaiThai_KrajangYai.glb', async function ( gltf ) {
         const model = gltf.scene;
-        model.position.set(0,-11,-6);
+        model.position.set(0,-11,-16);
+        await renderer.compileAsync( model, camera, scene );
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const material = child.material;
+    
+                if (material) {
+                    material.transparent = true;
+                    material.opacity = 0.5;
+                }
+            }
+        });
+        scene.add( model );
+    } );
+    const loaderKrajangLek = new GLTFLoader().setPath( 'models/' );
+    loaderKrajangLek.load( 'LaiThai_KrajangLek.glb', async function ( gltf ) {
+        const model = gltf.scene;
+        model.position.set(0,-11,36);
         await renderer.compileAsync( model, camera, scene );
         model.traverse((child) => {
             if (child.isMesh) {
@@ -342,13 +359,13 @@ function init() {
     } );
 }
 
-// function updateTextureFrame() {
-//     const xIndex = currentFrame % gridSize; // ตำแหน่งคอลัมน์
-//     const yIndex = Math.floor(currentFrame / gridSize); // ตำแหน่งแถว
+function updateTextureFrame() {
+    const xIndex = currentFrame % gridSize; // ตำแหน่งคอลัมน์
+    const yIndex = Math.floor(currentFrame / gridSize); // ตำแหน่งแถว
 
-//     textureStuff.offset.set(xIndex / gridSize, 1 - (yIndex + 1) / gridSize); // ตั้งค่า offset
-//     currentFrame = (currentFrame + 1) % totalFrames; // หมุนเวียนเฟรม
-// }
+    textureStuff.offset.set(xIndex / gridSize, 1 - (yIndex + 1) / gridSize); // ตั้งค่า offset
+    currentFrame = (currentFrame + 1) % totalFrames; // หมุนเวียนเฟรม
+}
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -357,7 +374,7 @@ function onWindowResize() {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
+    //requestAnimationFrame(animate);
     
     // if(animatedMesh){
     //     animatedMesh.position.x += .001;
@@ -366,12 +383,12 @@ function animate() {
     //     animatedMesh.position.y = dirY[Math.floor(Math.random()*dirY.length)];
     //     }
     // }
-    // const nowTime = Date.now();
-    // if (nowTime - lastUpdate > frameDuration) {
-    //   updateTextureFrame();
-    //   lastUpdate = nowTime;
-    // }
-
+    const nowTime = Date.now();
+    if (nowTime - lastUpdate > frameDuration) {
+      updateTextureFrame();
+      lastUpdate = nowTime;
+    }
+    controls.update();
     renderer.render( scene, camera );
     stats.update();
 }
