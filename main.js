@@ -308,7 +308,6 @@ function init() {
     volumeFolder.add( parameters, 'Audio2' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
                         sound2.setVolume( parameters.Audio2 );
     } );
-    var dirLight = gui.addfolder('Light Position');
 
     // textureStuff = new THREE.TextureLoader().load('./img/stuff-min.png', (tex) => {
     //     tex.wrapS = THREE.RepeatWrapping;
