@@ -11,13 +11,16 @@ let currentFrame = 0;
 let frameDuration = 700;
 let textureStuff, animatedMesh;
 let dirY = [-4,-3,-2,-1,0,1,2,3,4];
-
+let dirLight;
 
 gui = new GUI();
 var parameters = 
 {
 	'Audio1': 0.1,
 	'Audio2': 0.0,
+    'X': 0.0,
+    'Y': 0.0,
+    'Z': 0.0
 };
 
 init();
@@ -28,7 +31,7 @@ function init() {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
-	camera.position.set(10, 0, 20 );
+	camera.position.set(0, 0, 20 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x111111 );
 
@@ -37,7 +40,7 @@ function init() {
 	hemiLight.position.set( 0, 0, 0 );
 	scene.add( hemiLight );
 
-	let dirLight = new THREE.DirectionalLight( 0xffffff );
+	dirLight = new THREE.DirectionalLight( 0xffffff );
 	dirLight.position.set( 0, 0, 1 );
 	scene.add( dirLight );		
 
@@ -274,8 +277,8 @@ function init() {
     container.appendChild( renderer.domElement );
     
     controls = new OrbitControls( camera, renderer.domElement );
-    console.log(controls);
-    controls.autoRotate = true;
+    //console.log(controls);
+    //controls.autoRotate = true;
     controls.update();
 
     stats = new Stats();
@@ -301,6 +304,7 @@ function init() {
         sound2.play();
     });
     
+    //gui
     var volumeFolder = gui.title('Sound Volume');
     volumeFolder.add( parameters, 'Audio1' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
                         sound.setVolume( parameters.Audio1 );
@@ -308,7 +312,18 @@ function init() {
     volumeFolder.add( parameters, 'Audio2' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
                         sound2.setVolume( parameters.Audio2 );
     } );
+    var positionLight = gui.addFolder('Positio Light');
+    positionLight.add( parameters, 'X' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+        dirLight.position.x = parameters.X;
+    } );
+    positionLight.add( parameters, 'Y' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+        dirLight.position.y = parameters.Y;
+    } );
+    positionLight.add( parameters, 'Z' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+        dirLight.position.z = parameters.Z;
+    } );
 
+    //game stuff
     textureStuff = new THREE.TextureLoader().load('./img/stuff-min.png', (tex) => {
         tex.wrapS = THREE.RepeatWrapping;
         tex.wrapT = THREE.RepeatWrapping;
