@@ -333,7 +333,7 @@ function init() {
         const geometry = new THREE.PlaneGeometry(4, 3);
         const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide , map: tex });
         animatedMesh = new THREE.Mesh(geometry, material);
-        animatedMesh.position.set(0,0,-3)
+        animatedMesh.position.set(0,-8,-4)
         scene.add(animatedMesh);
     })
 
@@ -341,7 +341,7 @@ function init() {
     const loaderKrajangYai = new GLTFLoader().setPath( 'models/' );
     loaderKrajangYai.load( 'LaiThai_KrajangYai.glb', async function ( gltf ) {
         const model = gltf.scene;
-        model.position.set(0,-11,-16);
+        model.position.set(0,-14,-16);
         await renderer.compileAsync( model, camera, scene );
         model.traverse((child) => {
             if (child.isMesh) {
