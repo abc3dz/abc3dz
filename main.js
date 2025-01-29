@@ -15,6 +15,10 @@ let dirLight;
 //game stuff
 let gameMesh, tek1Mesh, tek2Mesh, tek3Mesh, tek4Mesh, tek5Mesh;
 let MomGame, RandGeo, YingLeak, Lgg, ClickNaja, GeometricBowling
+//Check
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let lastHovered = null;
 
 gui = new GUI();
 var parameters = 
@@ -333,106 +337,131 @@ function init() {
     } );
 
     //Link
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
+    
 
     window.addEventListener('click', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+        
+        if (intersects.length > 0) {
+            const ClickObj = intersects[0].object;
+            console.log(ClickObj);
+            switch (ClickObj.name) {
+                case "ObjGithub":
+                    window.open('https://github.com/abczezeze', '_blank');
+                    break;
+                case "ObjReddit":
+                    window.open('https://www.reddit.com/user/abczezeze', '_blank');
+                    break;
+                case "ObjITCH":
+                    window.open('https://abczezeze.itch.io/', '_blank');
+                    break;
+                case "ObjGamejolt":
+                    window.open('https://gamejolt.com/@abczezeze', '_blank');
+                    break;
+                case "ObjIndieDB":
+                    window.open('https://www.indiedb.com/members/abczezeze', '_blank');
+                    break;
+                case "ObjPlayStore":
+                    window.open('https://play.google.com/store/apps/dev?id=6112214561738871485', '_blank');
+                    break;
+                case "ObjSketchfab":
+                    window.open('https://sketchfab.com/ABCzezeze', '_blank');
+                    break;
+                case "ObjSoundcloud":
+                    window.open('https://soundcloud.com/abczezeze', '_blank');
+                    break;
+                case "ObjGgDrive":
+                    window.open('https://drive.google.com/drive/folders/14KsuX06G2BkIyWZz2Z6XCIeZBiTAaACA', '_blank');
+                    break;
+                case "ObjYoutube":
+                    window.open('https://www.youtube.com/@abczezeze', '_blank');
+                    break;
+                case "Fb":
+                    window.open('http://fb.me/cherncheu', '_blank');
+                    break;
+                case "ObjX":
+                    window.open('https://x.com/abczezeze', '_blank');
+                    break;
+                case "ObjMastodon":
+                    window.open('https://mastodon.gamedev.place/@abczezeze', '_blank');
+                    break;
+                case "ObjBluesky":
+                    window.open('https://bsky.app/profile/abczezeze.bsky.social', '_blank');
+                    break;
+                case "ObjDeviantart":
+                    window.open('https://www.deviantart.com/abc3dz', '_blank');
+                    break;
+                case "ObjTumblr":
+                    window.open('https://www.tumblr.com/abczezeze', '_blank');
+                    break;
+                case "ObjVimeo":
+                    window.open('https://vimeo.com/user84261275', '_blank');
+                    break;
+                case "Tek1":
+                    window.open('https://www.kongregate.com/games/ABC3Dz/tek-game', '_blank');
+                    break;
+                case "Tek2":
+                    window.open('https://abczezeze.itch.io/tekkk', '_blank');
+                    break;
+                case "Tek3":
+                    window.open('https://play.google.com/store/apps/details?id=com.abczezeze.tek', '_blank');
+                    break;
+                case "Tek5":
+                    window.open('https://abczezeze.github.io/TekGame/', '_blank');
+                    break;
+                case "Tek4":
+                    window.open('https://gamejolt.com/games/tekkk/874075', '_blank');
+                    break;
+                case "RandGeo":
+                    window.open('https://abczezeze.github.io/RandGeo3D/', '_blank');
+                    break;
+                case "MomGame":
+                    window.open('https://flowlab.io/game/play/895886', '_blank');
+                    break;
+                case "Lgg":
+                    window.open('https://www.indiedb.com/games/lgg', '_blank');
+                    break;
+                case "ClickNaja":
+                    window.open('https://github.com/abczezeze/ClickNaja', '_blank');
+                    break;
+                case "GeometricBowling":
+                    window.open('https://github.com/abczezeze/GeometricBowling', '_blank');
+                    break;
+                case "Yingleak":
+                    window.open('https://abczezeze.github.io/YingLak/', '_blank');
+                    break;
+                default:
+                    console.log('No action assigned for this object.');
+                }
+            }
+    });
+
+    window.addEventListener('mousemove', (event) => {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     
-    if (intersects.length > 0) {
-        const ClickObj = intersects[0].object;
-        console.log(ClickObj);
-        switch (ClickObj.name) {
-            case "ObjGithub":
-                window.open('https://github.com/abczezeze', '_blank');
-                break;
-            case "ObjReddit":
-                window.open('https://www.reddit.com/user/abczezeze', '_blank');
-                break;
-            case "ObjITCH":
-                window.open('https://abczezeze.itch.io/', '_blank');
-                break;
-            case "ObjGamejolt":
-                window.open('https://gamejolt.com/@abczezeze', '_blank');
-                break;
-            case "ObjIndieDB":
-                window.open('https://www.indiedb.com/members/abczezeze', '_blank');
-                break;
-            case "ObjPlayStore":
-                window.open('https://play.google.com/store/apps/dev?id=6112214561738871485', '_blank');
-                break;
-            case "ObjSketchfab":
-                window.open('https://sketchfab.com/ABCzezeze', '_blank');
-                break;
-            case "ObjSoundcloud":
-                window.open('https://soundcloud.com/abczezeze', '_blank');
-                break;
-            case "ObjGgDrive":
-                window.open('https://drive.google.com/drive/folders/14KsuX06G2BkIyWZz2Z6XCIeZBiTAaACA', '_blank');
-                break;
-            case "ObjYoutube":
-                window.open('https://www.youtube.com/@abczezeze', '_blank');
-                break;
-            case "Fb":
-                window.open('http://fb.me/cherncheu', '_blank');
-                break;
-            case "ObjX":
-                window.open('https://x.com/abczezeze', '_blank');
-                break;
-            case "ObjMastodon":
-                window.open('https://mastodon.gamedev.place/@abczezeze', '_blank');
-                break;
-            case "ObjBluesky":
-                window.open('https://bsky.app/profile/abczezeze.bsky.social', '_blank');
-                break;
-            case "ObjDeviantart":
-                window.open('https://www.deviantart.com/abc3dz', '_blank');
-                break;
-            case "ObjTumblr":
-                window.open('https://www.tumblr.com/abczezeze', '_blank');
-                break;
-            case "ObjVimeo":
-                window.open('https://vimeo.com/user84261275', '_blank');
-                break;
-            case "Tek1":
-                window.open('https://www.kongregate.com/games/ABC3Dz/tek-game', '_blank');
-                break;
-            case "Tek2":
-                window.open('https://abczezeze.itch.io/tekkk', '_blank');
-                break;
-            case "Tek3":
-                window.open('https://play.google.com/store/apps/details?id=com.abczezeze.tek', '_blank');
-                break;
-            case "Tek5":
-                window.open('https://abczezeze.github.io/TekGame/', '_blank');
-                break;
-            case "Tek4":
-                window.open('https://gamejolt.com/games/tekkk/874075', '_blank');
-                break;
-            case "RandGeo":
-                window.open('https://abczezeze.github.io/RandGeo3D/', '_blank');
-                break;
-            case "MomGame":
-                window.open('https://flowlab.io/game/play/895886', '_blank');
-                break;
-            case "Lgg":
-                window.open('https://www.indiedb.com/games/lgg', '_blank');
-                break;
-            case "ClickNaja":
-                window.open('https://github.com/abczezeze/ClickNaja', '_blank');
-                break;
-            case "GeometricBowling":
-                window.open('https://github.com/abczezeze/GeometricBowling', '_blank');
-                break;
-            case "Yingleak":
-                window.open('https://abczezeze.github.io/YingLak/', '_blank');
-                break;
-            default:
-                console.log('No action assigned for this object.');
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children, true); 
+    
+        if (intersects.length > 0) {
+            const hoverObj = intersects[0].object;
+    
+            if (lastHovered && lastHovered !== hoverObj) {
+                lastHovered.material.color.set(0xffffff); // คืนค่าสีเดิม
+            }
+    
+            if (hoverObj.material && hoverObj.material.color) {
+                hoverObj.material.color.set(Math.random()*0xffffff); // เปลี่ยนเป็นสีตอน Hover
+                lastHovered = hoverObj;
+            }
+        } else {
+            if (lastHovered) {
+                lastHovered.material.color.set(0xffffff);
+                lastHovered = null;
             }
         }
     });
