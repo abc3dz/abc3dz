@@ -19,7 +19,8 @@ let MomGame, RandGeo, YingLeak, Lgg, ClickNaja, GeometricBowling
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 let lastHovered = null;
-
+//LaiThai art
+let krajangYai, krajangLek;
 gui = new GUI();
 var parameters = 
 {
@@ -168,23 +169,42 @@ function init() {
     const loaderDeviantart = new GLTFLoader().setPath( 'models/' );
     loaderDeviantart.load( 'DeviantartObj.glb', async function ( gltf ) {
         const model = gltf.scene;
-        model.position.set(0+-1,0+-4.8,0);
+        model.position.set(-2,-4.8,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
     } );
     const loaderTumblr = new GLTFLoader().setPath( 'models/' );
     loaderTumblr.load( 'TumblrObj.glb', async function ( gltf ) {
         const model = gltf.scene;
-        model.position.set(0,0+-4.8,0);
+        model.position.set(-.8,-4.8,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
     } );
     const loaderVimeo = new GLTFLoader().setPath( 'models/' );
     loaderVimeo.load( 'VimeoObj.glb', async function ( gltf ) {
         const model = gltf.scene;
-        model.position.set(0+1.3,0+-4.8,0);
+        model.position.set(0.4,-4.8,0);
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
+    } );
+    const loaderYTTh = new GLTFLoader().setPath( 'models/' );
+    loaderVimeo.load( 'YoutubeObj.glb', async function ( gltf ) {
+        const model = gltf.scene;
+        model.name = "YTTh"
+        model.position.set(2,-4.8,0);
+        await renderer.compileAsync( model, camera, scene );
+        model.traverse((child) => {
+            if (child.isMesh) {
+                const material = child.material;
+
+                if (material) {
+                    material.transparent = true;
+                    material.opacity = 0.5;
+                }
+            }
+        });
+        scene.add( model );
+        
     } );
     
     //render
@@ -305,11 +325,12 @@ function init() {
     loaderKrajangYai.load( 'LaiThai_KrajangYai.glb', async function ( gltf ) {
         const model = gltf.scene;
         model.position.set(0,-11,-16);
+        krajangYai = gltf.scene;
         await renderer.compileAsync( model, camera, scene );
         model.traverse((child) => {
             if (child.isMesh) {
                 const material = child.material;
-    
+
                 if (material) {
                     material.transparent = true;
                     material.opacity = 0.5;
@@ -322,11 +343,12 @@ function init() {
     loaderKrajangLek.load( 'LaiThai_KrajangLek.glb', async function ( gltf ) {
         const model = gltf.scene;
         model.position.set(0,-7,-8);
+        
         await renderer.compileAsync( model, camera, scene );
         model.traverse((child) => {
             if (child.isMesh) {
                 const material = child.material;
-    
+                
                 if (material) {
                     material.transparent = true;
                     material.opacity = 0.5;
@@ -337,8 +359,6 @@ function init() {
     } );
 
     //Link
-    
-
     window.addEventListener('click', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -349,6 +369,8 @@ function init() {
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
             console.log(ClickObj);
+            if(ClickObj.parent.name == "YTTh")
+                window.open('https://www.youtube.com/@abczezezeth' ,'_blank');
             switch (ClickObj.name) {
                 case "ObjGithub":
                     window.open('https://github.com/abczezeze', '_blank');
@@ -449,6 +471,8 @@ function init() {
     
         if (intersects.length > 0) {
             const hoverObj = intersects[0].object;
+            //console.log(hoverObj);
+            if(hoverObj.name === "KrajankYai") return;
     
             if (lastHovered && lastHovered !== hoverObj) {
                 lastHovered.material.color.set(0xffffff); // คืนค่าสีเดิม
@@ -524,7 +548,9 @@ function animate() {
     if(GeometricBowling)GeometricBowling.rotation.y += 0.055;
     if(YingLeak)YingLeak.rotation.y += 0.037;
 
-    controls.update();
+    //krajangLek.color.set(0xff0000);
+    //krajangYai.material.color.set(0xffff00);
+    //controls.update();
     renderer.render( scene, camera );
     //stats.update();
 }
