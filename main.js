@@ -371,6 +371,8 @@ function init() {
             console.log(ClickObj);
             if(ClickObj.parent.name == "YTTh")
                 window.open('https://www.youtube.com/@abczezezeth' ,'_blank');
+            if(ClickObj.parent.name == "ObjAbczezeze")
+                window.open('https://web.facebook.com/cherncheu/' ,'_blank');
             switch (ClickObj.name) {
                 case "ObjGithub":
                     window.open('https://github.com/abczezeze', '_blank');
@@ -402,8 +404,8 @@ function init() {
                 case "ObjYoutube":
                     window.open('https://www.youtube.com/@abczezeze', '_blank');
                     break;
-                case "Fb":
-                    window.open('http://fb.me/cherncheu', '_blank');
+                case "ObjFb":
+                    window.open('https://web.facebook.com/profile.php?id=61572432430115', '_blank');
                     break;
                 case "ObjX":
                     window.open('https://x.com/abczezeze', '_blank');
