@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/GLTFLoader.js';
 import { GUI } from 'three/addons/lil-gui.module.min.js';
 import Stats from 'three/addons/stats.module.js';
+import { loadGlb } from './loadGlb.js';
 let container, gui, camera, scene, renderer, stats, controls;
 /*let lastUpdate = Date.now();
 const gridSize = 3;
@@ -32,9 +33,9 @@ var parameters =
 };
 
 init();
-animate();
+//animate();
 
-function init() {
+async function init() {
 
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
@@ -53,141 +54,29 @@ function init() {
 	scene.add( dirLight );		
 
 	// model
-    const loaderABCzezeze = new GLTFLoader().setPath( 'models/' );
-    loaderABCzezeze.load( 'Abczezeze.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(0,2,0);
-        model.scale.set(1.7,1.7,1.7);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    //Game social
-    const loaderITCH = new GLTFLoader().setPath( 'models/' );
-    loaderITCH.load( 'ITCHioObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-2,0,0);
-        model.scale.set(.8,.8,.8);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderGamejolt = new GLTFLoader().setPath( 'models/' );
-    loaderGamejolt.load( 'GamejoltObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-0.5,0,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderIndieDB = new GLTFLoader().setPath( 'models/' );
-    loaderIndieDB.load( 'IndieDBObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(1,0,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderPlaystore = new GLTFLoader().setPath( 'models/' );
-    loaderPlaystore.load( 'PlayStoreObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(2.5,0,0);
-        model.scale.set(.6,.6,.6);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    //Art social
-    const loaderSketchfab = new GLTFLoader().setPath( 'models/' );
-    loaderSketchfab.load( 'SketchfabObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-2,-1.5,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    //Sound social
-    const loaderSoundcloud = new GLTFLoader().setPath( 'models/' );
-    loaderSoundcloud.load( 'SoundcloudObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-.7,-1.5,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    //Social media
-    const loaderGgDrive = new GLTFLoader().setPath( 'models/' );
-    loaderGgDrive.load( 'GgDriveObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(1,-1.5,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderYoutube = new GLTFLoader().setPath( 'models/' );
-    loaderYoutube.load( 'YoutubeObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(2.4,-1.5,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderFb = new GLTFLoader().setPath( 'models/' );
-    loaderFb.load( 'FbObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-2,-3,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderX = new GLTFLoader().setPath( 'models/' );
-    loaderX.load( 'XObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-.7,-3,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderMastodon = new GLTFLoader().setPath( 'models/' );
-    loaderMastodon.load( 'MastodonObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(1,-3,0);
-        model.scale.set(.6,.6,.6);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderBluesky = new GLTFLoader().setPath( 'models/' );
-    loaderBluesky.load( 'BlueskyObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(2.4,-3,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderReddit = new GLTFLoader().setPath( 'models/' );
-    loaderReddit.load( 'RedditObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-2.2,2,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderGithub = new GLTFLoader().setPath( 'models/' );
-    loaderGithub.load( 'GithubObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(1.7,2,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderDeviantart = new GLTFLoader().setPath( 'models/' );
-    loaderDeviantart.load( 'DeviantartObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-2,-4.8,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderTumblr = new GLTFLoader().setPath( 'models/' );
-    loaderTumblr.load( 'TumblrObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(-.8,-4.8,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    const loaderVimeo = new GLTFLoader().setPath( 'models/' );
-    loaderVimeo.load( 'VimeoObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.position.set(0.4,-4.8,0);
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-    
+    try {
+        await loadGlb(scene, 'models/Abczezeze.glb', {x:0,y:2}, 1.7);
+        await loadGlb(scene, 'models/ITCHioObj.glb', {x:-2,y:0}, .8);
+        await loadGlb(scene, 'models/GamejoltObj.glb', {x:-.5,y:0});
+        await loadGlb(scene, 'models/IndieDBObj.glb', {x:1,y:0});
+        await loadGlb(scene, 'models/PlayStoreObj.glb', {x:2.5,y:0},.6);
+        await loadGlb(scene, 'models/SketchfabObj.glb', {x:-2,y:-1.5});
+        await loadGlb(scene, 'models/SoundcloudObj.glb', {x:-.7,y:-1.5});
+        await loadGlb(scene, 'models/GgDriveObj.glb', {x:1,y:-1.5});
+        await loadGlb(scene, 'models/YoutubeObj.glb', {x:2.4,y:-1.5});
+        await loadGlb(scene, 'models/FbObj.glb', {x:-2,y:-3});
+        await loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
+        await loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
+        await loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
+        await loadGlb(scene, 'models/RedditObj.glb', {x:-2.2,y:2});
+        await loadGlb(scene, 'models/GithubObj.glb', {x:1.7,y:2});
+        await loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
+        await loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
+        await loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
+    } catch (error) {
+        console.error("Error initializing models:", error);
+    }
+
     //render
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
