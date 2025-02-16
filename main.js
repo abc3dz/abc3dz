@@ -73,6 +73,7 @@ async function init() {
         await loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
         await loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
         await loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
+        //await loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
     } catch (error) {
         console.error("Error initializing models:", error);
     }
