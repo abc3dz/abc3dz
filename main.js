@@ -187,25 +187,6 @@ function init() {
         await renderer.compileAsync( model, camera, scene );
         scene.add( model );
     } );
-    const loaderYTTh = new GLTFLoader().setPath( 'models/' );
-    loaderVimeo.load( 'YoutubeObj.glb', async function ( gltf ) {
-        const model = gltf.scene;
-        model.name = "YTTh"
-        model.position.set(2,-4.8,0);
-        await renderer.compileAsync( model, camera, scene );
-        model.traverse((child) => {
-            if (child.isMesh) {
-                const material = child.material;
-
-                if (material) {
-                    material.transparent = true;
-                    material.opacity = 0.5;
-                }
-            }
-        });
-        scene.add( model );
-        
-    } );
     
     //render
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -216,8 +197,6 @@ function init() {
     container.appendChild( renderer.domElement );
     
     controls = new OrbitControls( camera, renderer.domElement );
-    //console.log(controls);
-    //controls.autoRotate = true;
     controls.update();
 
     //stats = new Stats();
@@ -368,9 +347,8 @@ function init() {
         
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
-            console.log(ClickObj);
-            if(ClickObj.parent.name == "YTTh")
-                window.open('https://www.youtube.com/@abczezezeth' ,'_blank');
+            /*if(ClickObj.parent.name == "YTTh")
+                window.open('https://www.youtube.com/@abczezezeth' ,'_blank');*/
             if(ClickObj.parent.name == "ObjAbczezeze")
                 window.open('https://web.facebook.com/cherncheu/' ,'_blank');
             switch (ClickObj.name) {
