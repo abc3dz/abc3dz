@@ -237,6 +237,7 @@ async function init() {
         
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
+            console.log(ClickObj);
             /*if(ClickObj.parent.name == "YTTh")
                 window.open('https://www.youtube.com/@abczezezeth' ,'_blank');*/
             if(ClickObj.parent.name == "ObjAbczezeze")
@@ -251,10 +252,10 @@ async function init() {
                 case "ObjITCH":
                     window.open('https://abczezeze.itch.io/', '_blank');
                     break;
-                case "ObjGamejolt":
+                case "ObjGameJolt":
                     window.open('https://gamejolt.com/@abczezeze', '_blank');
                     break;
-                case "ObjIndieDB":
+                case "ObjINDIEDB":
                     window.open('https://www.indiedb.com/members/abczezeze', '_blank');
                     break;
                 case "ObjPlayStore":
@@ -263,13 +264,13 @@ async function init() {
                 case "ObjSketchfab":
                     window.open('https://sketchfab.com/ABCzezeze', '_blank');
                     break;
-                case "ObjSoundcloud":
+                case "ObjSoundCloud":
                     window.open('https://soundcloud.com/abczezeze', '_blank');
                     break;
-                case "ObjGgDrive":
+                case "ObjDrive":
                     window.open('https://drive.google.com/drive/folders/14KsuX06G2BkIyWZz2Z6XCIeZBiTAaACA', '_blank');
                     break;
-                case "ObjYoutube":
+                case "ObjYT":
                     window.open('https://www.youtube.com/@abczezeze', '_blank');
                     break;
                 case "ObjFb":
