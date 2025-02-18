@@ -360,6 +360,7 @@ async function init() {
             }
         }
     });
+    animate();
 }
 
 // function updateTextureFrame() {
