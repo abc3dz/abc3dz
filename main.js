@@ -309,9 +309,9 @@ async function init() {
                 case "Tek4":
                     window.open('https://gamejolt.com/games/tekkk/874075', '_blank');
                     break;
-                case "RandGeo":
+                /*case "RandGeo":
                     window.open('https://abczezeze.github.io/RandGeo3D/', '_blank');
-                    break;
+                    break;*/
                 case "MomGame":
                     window.open('https://flowlab.io/game/play/895886', '_blank');
                     break;
