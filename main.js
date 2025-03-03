@@ -35,14 +35,16 @@ var parameters =
 init();
 //animate();
 
-async function init() {
+function init() {
 
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
+    //camera
 	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
 	camera.position.set(0, 0, 28);
+    //scene
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x111111 );
+	scene.background = null;
 
 	// lights
 	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
@@ -53,33 +55,8 @@ async function init() {
 	dirLight.position.set( 0, 0, 1 );
 	scene.add( dirLight );		
 
-	// model
-    try {
-        await loadGlb(scene, 'models/Abczezeze.glb', {x:0,y:2}, 1.7);
-        await loadGlb(scene, 'models/ITCHioObj.glb', {x:-2,y:0}, .8);
-        await loadGlb(scene, 'models/GamejoltObj.glb', {x:-.5,y:0});
-        await loadGlb(scene, 'models/IndieDBObj.glb', {x:1,y:0});
-        await loadGlb(scene, 'models/PlayStoreObj.glb', {x:2.5,y:0},.6);
-        await loadGlb(scene, 'models/SketchfabObj.glb', {x:-2,y:-1.5});
-        await loadGlb(scene, 'models/SoundcloudObj.glb', {x:-.7,y:-1.5});
-        await loadGlb(scene, 'models/GgDriveObj.glb', {x:1,y:-1.5});
-        await loadGlb(scene, 'models/YoutubeObj.glb', {x:2.4,y:-1.5});
-        await loadGlb(scene, 'models/FbObj.glb', {x:-2,y:-3});
-        await loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
-        await loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
-        await loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
-        await loadGlb(scene, 'models/RedditObj.glb', {x:-2.2,y:2});
-        await loadGlb(scene, 'models/GithubObj.glb', {x:1.7,y:2});
-        await loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
-        await loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
-        await loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
-        //await loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
-    } catch (error) {
-        console.error("Error initializing models:", error);
-    }
-
     //render
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true} );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.setAnimationLoop( animate );
@@ -89,10 +66,35 @@ async function init() {
     controls = new OrbitControls( camera, renderer.domElement );
     controls.update();
 
-    //stats = new Stats();
-    //container.appendChild( stats.dom );
+    stats = new Stats();
+    container.appendChild( stats.dom );
 
     window.addEventListener( 'resize', onWindowResize );
+    
+	// model
+    try {
+         loadGlb(scene, 'models/Abczezeze.glb', {x:0,y:2}, 1.7);
+         loadGlb(scene, 'models/ITCHioObj.glb', {x:-2,y:0}, .8);
+         loadGlb(scene, 'models/GamejoltObj.glb', {x:-.5,y:0});
+         loadGlb(scene, 'models/IndieDBObj.glb', {x:1,y:0});
+         loadGlb(scene, 'models/PlayStoreObj.glb', {x:2.5,y:0},.6);
+         loadGlb(scene, 'models/SketchfabObj.glb', {x:-2,y:-1.5});
+         loadGlb(scene, 'models/SoundcloudObj.glb', {x:-.7,y:-1.5});
+         loadGlb(scene, 'models/GgDriveObj.glb', {x:1,y:-1.5});
+         loadGlb(scene, 'models/YoutubeObj.glb', {x:2.4,y:-1.5});
+         loadGlb(scene, 'models/FbObj.glb', {x:-2,y:-3});
+         loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
+         loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
+         loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
+         loadGlb(scene, 'models/RedditObj.glb', {x:-2.2,y:2});
+         loadGlb(scene, 'models/GithubObj.glb', {x:1.7,y:2});
+         loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
+         loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
+         loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
+        // loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
+    } catch (error) {
+        console.error("Error initializing models:", error);
+    }
 
     //sound
     var listener = new THREE.AudioListener();
@@ -132,59 +134,45 @@ async function init() {
     } );
 
     //game stuff
-    // textureStuff = new THREE.TextureLoader().load('./img/stuff-min.png', (tex) => {
-    //     tex.wrapS = THREE.RepeatWrapping;
-    //     tex.wrapT = THREE.RepeatWrapping;
-      
-    //     tex.repeat.set(1 / gridSize, 1 / gridSize); 
-
-    //     const geometry = new THREE.PlaneGeometry(4, 3);
-    //     const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide , map: tex });
-    //     animatedMesh = new THREE.Mesh(geometry, material);
-    //     animatedMesh.position.set(0,-8,-4);
-    //     scene.add(animatedMesh);
-    // })
-    gameStuff('./img/Tek1-min.png',3,1.7,"Tek1",-5,2).then((mesh) => {
+    gameStuff('./img/Tek1-min.png',3,1.7,"Tek1",-5,2+2).then((mesh) => {
         tek1Mesh = mesh;
         scene.add(tek1Mesh);
     });
-    gameStuff('./img/Tek2-min.png',3,1.7,'Tek2',-5,0).then((mesh) => {
+    gameStuff('./img/Tek2-min.png',3,1.7,'Tek2',-5,0+2).then((mesh) => {
         tek2Mesh = mesh;
         scene.add(tek2Mesh);
     });
-    gameStuff('./img/Tek3-min.png',3,1.7,'Tek3',-5,-2).then((mesh) => {
+    gameStuff('./img/Tek3-min.png',3,1.7,'Tek3',-5,-2+2).then((mesh) => {
         tek3Mesh = mesh
         scene.add(tek3Mesh);
     });
-    gameStuff('./img/Tek5-min.png',3,1.7,'Tek5',-5,-4).then((mesh) => {
-        tek5Mesh = mesh;
-        scene.add(tek5Mesh);
-    });
-    gameStuff('./img/Tek4-min.png',1.3,1.7,'Tek4',-2,-7).then((mesh) => {
+    gameStuff('./img/Tek4-min.png',2.5,1.7,'Tek4',-5,-4+2).then((mesh) => {
         tek4Mesh = mesh;
         scene.add(tek4Mesh);
     });
-    gameStuff('./img/RandGeo-min.png',1.3,1.7,'RandGeo',0.3,-7).then((mesh) => {
-        RandGeo = mesh;
-        scene.add(RandGeo);
+    gameStuff('./img/Tek5-min.png',3,1.7,'Tek5',-5,-6+2).then((mesh) => {
+        tek5Mesh = mesh;
+        scene.add(tek5Mesh);
     });
-    gameStuff('./img/MomGame-min.png',2,1.7,'MomGame',2.7,-7).then((mesh) => {
+    
+
+    gameStuff('./img/MomGame-min.png',3,1.7,'MomGame',5,-6+2).then((mesh) => {
         MomGame = mesh;
         scene.add(MomGame);
     });
-    gameStuff('./img/Lgg-min.png',3,1.7,'Lgg',5,-4).then((mesh) => {
+    gameStuff('./img/Lgg-min.png',3,1.7,'Lgg',5,-4+2).then((mesh) => {
         Lgg = mesh;
         scene.add(Lgg);
     });
-    gameStuff('./img/ClickNaja-min.png',3,1.7,'ClickNaja',5,-2).then((mesh) => {
+    gameStuff('./img/ClickNaja-min.png',3,1.7,'ClickNaja',5,-2+2).then((mesh) => {
         ClickNaja = mesh;
         scene.add(ClickNaja);
     });
-    gameStuff('./img/GeometricBowling-min.png',3,1.7,'GeometricBowling',5,0).then((mesh) => {
+    gameStuff('./img/GeometricBowling-min.png',3,1.7,'GeometricBowling',5,0+2).then((mesh) => {
         GeometricBowling = mesh;
         scene.add(GeometricBowling);
     });
-    gameStuff('./img/Yingleak-min.png',3,1.7,'Yingleak',5,2).then((mesh) => {
+    gameStuff('./img/Yingleak-min.png',3,1.7,'Yingleak',5,2+2).then((mesh) => {
         YingLeak = mesh;
         scene.add(YingLeak);
     });
@@ -238,8 +226,6 @@ async function init() {
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
             console.log(ClickObj);
-            /*if(ClickObj.parent.name == "YTTh")
-                window.open('https://www.youtube.com/@abczezezeth' ,'_blank');*/
             if(ClickObj.parent.name == "ObjAbczezeze")
                 window.open('https://web.facebook.com/cherncheu/' ,'_blank');
             switch (ClickObj.name) {
@@ -303,15 +289,12 @@ async function init() {
                 case "Tek3":
                     window.open('https://play.google.com/store/apps/details?id=com.abczezeze.tek', '_blank');
                     break;
-                case "Tek5":
-                    window.open('https://abczezeze.github.io/TekGame/', '_blank');
-                    break;
                 case "Tek4":
                     window.open('https://gamejolt.com/games/tekkk/874075', '_blank');
                     break;
-                /*case "RandGeo":
-                    window.open('https://abczezeze.github.io/RandGeo3D/', '_blank');
-                    break;*/
+                case "Tek5":
+                    window.open('https://abczezeze.github.io/TekGame/', '_blank');
+                    break;
                 case "MomGame":
                     window.open('https://flowlab.io/game/play/895886', '_blank');
                     break;
@@ -346,11 +329,11 @@ async function init() {
             if(hoverObj.name === "KrajankYai") return;
     
             if (lastHovered && lastHovered !== hoverObj) {
-                lastHovered.material.color.set(0xffffff); // คืนค่าสีเดิม
+                lastHovered.material.color.set(0xffffff);
             }
     
             if (hoverObj.material && hoverObj.material.color) {
-                hoverObj.material.color.set(Math.random()*0xffffff); // เปลี่ยนเป็นสีตอน Hover
+                hoverObj.material.color.set(Math.random()*0xffffff);
                 lastHovered = hoverObj;
             }
         } else {
@@ -360,16 +343,8 @@ async function init() {
             }
         }
     });
-    animate();
 }
 
-// function updateTextureFrame() {
-//     const xIndex = currentFrame % gridSize; // ตำแหน่งคอลัมน์
-//     const yIndex = Math.floor(currentFrame / gridSize); // ตำแหน่งแถว
-
-//     textureStuff.offset.set(xIndex / gridSize, 1 - (yIndex + 1) / gridSize); // ตั้งค่า offset
-//     currentFrame = (currentFrame + 1) % totalFrames; // หมุนเวียนเฟรม
-// }
 function gameStuff(texture, sizeX, sizeY, name, posX, posY){
     return new Promise((resolve) => {
         const textureLoader = new THREE.TextureLoader();
@@ -389,40 +364,27 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
-
+let clock = new THREE.Clock();
 function animate() {
     //requestAnimationFrame(animate);
-    
-    // if(animatedMesh){
-    //     animatedMesh.position.x += .001;
-    //     if(animatedMesh.position.x>5){
-    //     animatedMesh.position.x = -5;
-    //     animatedMesh.position.y = dirY[Math.floor(Math.random()*dirY.length)];
-    //     }
-    // }
-    // const nowTime = Date.now();
-    // if (nowTime - lastUpdate > frameDuration) {
-    //   updateTextureFrame();
-    //   lastUpdate = nowTime;
-    // }
+    let delta = clock.getDelta();
 
-    if(tek1Mesh)tek1Mesh.rotation.y += 0.04;
-    if(tek2Mesh)tek2Mesh.rotation.y += 0.031;
-    if(tek3Mesh)tek3Mesh.rotation.y += 0.022;
-    if(tek4Mesh)tek4Mesh.rotation.y += 0.053;
+    if(tek1Mesh)tek1Mesh.rotation.y += 0.4 * delta;
+    if(tek2Mesh)tek2Mesh.rotation.y += 0.31 * delta;
+    if(tek3Mesh)tek3Mesh.rotation.y += 0.22 * delta;
+    if(tek4Mesh)tek4Mesh.rotation.y += 0.53 * delta;
 
-    if(tek5Mesh)tek5Mesh.rotation.y += 0.034;
-    if(RandGeo)RandGeo.rotation.y += 0.042;
-    if(MomGame)MomGame.rotation.y += 0.039;
+    if(tek5Mesh)tek5Mesh.rotation.y += 0.34 * delta;
+    if(RandGeo)RandGeo.rotation.y += 0.42 * delta;
+    if(MomGame)MomGame.rotation.y += 0.39 * delta;
 
-    if(Lgg)Lgg.rotation.y += 0.033;
-    if(ClickNaja)ClickNaja.rotation.y += 0.044;
-    if(GeometricBowling)GeometricBowling.rotation.y += 0.055;
-    if(YingLeak)YingLeak.rotation.y += 0.037;
+    if(Lgg)Lgg.rotation.y += 0.33 * delta;
+    if(ClickNaja)ClickNaja.rotation.y += 0.44 * delta;
+    if(GeometricBowling)GeometricBowling.rotation.y += 0.55 * delta;
+    if(YingLeak)YingLeak.rotation.y += 0.37 * delta;
 
-    //krajangLek.color.set(0xff0000);
-    //krajangYai.material.color.set(0xffff00);
     //controls.update();
     renderer.render( scene, camera );
-    //stats.update();
+    stats.update();
 }
+animate();
