@@ -91,6 +91,7 @@ function init() {
          loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
          loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
          loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
+         loadGlb(scene, 'models/FastworkObj.glb', {x:-2.2,y:3.5},1.3);
         // loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
     } catch (error) {
         console.error("Error initializing models:", error);
@@ -280,6 +281,10 @@ function init() {
                 case "ObjVimeo":
                     window.open('https://vimeo.com/user84261275', '_blank');
                     break;
+                case "ObjFastwork":
+                    window.open('https://fastwork.co/user/abczezeze', '_blank');
+                    break;
+                //game stuff
                 case "Tek1":
                     window.open('https://www.kongregate.com/games/ABC3Dz/tek-game', '_blank');
                     break;
