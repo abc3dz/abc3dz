@@ -86,7 +86,7 @@ function init() {
          loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
          loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
          loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
-         loadGlb(scene, 'models/RedditObj.glb', {x:-2.2,y:2});
+         loadGlb(scene, 'models/VercelObj.glb', {x:-2.2,y:2},1.3);
          loadGlb(scene, 'models/GithubObj.glb', {x:1.7,y:2});
          loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
          loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
@@ -233,8 +233,11 @@ function init() {
                 case "ObjGithub":
                     window.open('https://github.com/abczezeze', '_blank');
                     break;
-                case "ObjReddit":
-                    window.open('https://www.reddit.com/user/abczezeze', '_blank');
+                // case "ObjReddit":
+                //     window.open('https://www.reddit.com/user/abczezeze', '_blank');
+                //    break;
+                case "ObjVercel":
+                    window.open('https://vercel.com/abczezezes-projects', '_blank');
                     break;
                 case "ObjITCH":
                     window.open('https://abczezeze.itch.io/', '_blank');
