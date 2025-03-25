@@ -13,6 +13,9 @@ let frameDuration = 700;
 let textureStuff, animatedMesh;
 let dirY = [-4,-3,-2,-1,0,1,2,3,4];*/
 let dirLight;
+//load obj
+let vercelLoad;
+let vercelTurn = false;
 //game stuff
 let gameMesh, tek1Mesh, tek2Mesh, tek3Mesh, tek4Mesh, tek5Mesh;
 let MomGame, RandGeo, YingLeak, Lgg, ClickNaja, GeometricBowling
@@ -86,12 +89,13 @@ function init() {
          loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
          loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
          loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
-         loadGlb(scene, 'models/VercelObj.glb', {x:-2.2,y:2},1.3);
-         loadGlb(scene, 'models/GithubObj.glb', {x:1.7,y:2});
+         loadGlb(scene, 'models/VercelObj.glb', {x:-2.2,y:2},1.3).then((gltfScene) => {vercelLoad = gltfScene;});
+         loadGlb(scene, 'models/GithubObj.glb', {x:2,y:3.5});
          loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
          loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
          loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
          loadGlb(scene, 'models/FastworkObj.glb', {x:-2.2,y:3.5},1.3);
+         loadGlb(scene, 'models/RedditObj.glb', {x:2,y:2});
         // loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
     } catch (error) {
         console.error("Error initializing models:", error);
@@ -226,18 +230,19 @@ function init() {
         
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
-            console.log(ClickObj);
+            //console.log(ClickObj);
             if(ClickObj.parent.name == "ObjAbczezeze")
                 window.open('https://web.facebook.com/cherncheu/' ,'_blank');
             switch (ClickObj.name) {
                 case "ObjGithub":
                     window.open('https://github.com/abczezeze', '_blank');
                     break;
-                // case "ObjReddit":
-                //     window.open('https://www.reddit.com/user/abczezeze', '_blank');
-                //    break;
+                case "ObjReddit":
+                    window.open('https://www.reddit.com/user/abczezeze', '_blank');
+                   break;
                 case "ObjVercel":
-                    window.open('https://vercel.com/abczezezes-projects', '_blank');
+                    console.log(vercelLoad);
+                    vercelTurn = true;
                     break;
                 case "ObjITCH":
                     window.open('https://abczezeze.itch.io/', '_blank');
@@ -376,6 +381,8 @@ let clock = new THREE.Clock();
 function animate() {
     //requestAnimationFrame(animate);
     let delta = clock.getDelta();
+
+    if(vercelTurn)vercelLoad.rotation.y += 1 * delta;
 
     if(tek1Mesh)tek1Mesh.rotation.y += 0.4 * delta;
     if(tek2Mesh)tek2Mesh.rotation.y += 0.31 * delta;
