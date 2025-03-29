@@ -1,4 +1,4 @@
-import { GLTFLoader } from 'three/addons/GLTFLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 export function loadGlb(scene, path, position={x:0,y:0}, size=1) {
     return new Promise((resolve, reject) => {

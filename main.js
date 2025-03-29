@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/GLTFLoader.js';
-import { GUI } from 'three/addons/lil-gui.module.min.js';
-import Stats from 'three/addons/stats.module.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+import Stats from 'three/addons/libs/stats.module.js';
 import { loadGlb } from './loadGlb.js';
 let container, gui, camera, scene, renderer, stats, controls;
 /*let lastUpdate = Date.now();
