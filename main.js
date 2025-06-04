@@ -3,7 +3,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import Stats from 'three/addons/libs/stats.module.js';
-import { loadGlb } from './loadGlb.js';
+import gsap from "gsap";
+//import { loadGlb } from './loadGlb.js';
 let container, gui, camera, scene, renderer, stats, controls;
 /*let lastUpdate = Date.now();
 const gridSize = 3;
@@ -14,8 +15,8 @@ let textureStuff, animatedMesh;
 let dirY = [-4,-3,-2,-1,0,1,2,3,4];*/
 let dirLight;
 //load obj
-let vercelLoad;
-let vercelTurn = false;
+// let vercelLoad;
+// let vercelTurn = false;
 //game stuff
 let gameMesh, tek1Mesh, tek2Mesh, tek3Mesh, tek4Mesh, tek5Mesh;
 let MomGame, RandGeo, YingLeak, Lgg, ClickNaja, GeometricBowling
@@ -109,7 +110,7 @@ function init() {
         await renderer.compileAsync(model, camera, scene);
         scene.add(model);
     });
-    console.log(allIcon);
+    
     //sound
     var listener = new THREE.AudioListener();
     var sound = new THREE.Audio(listener);
@@ -216,7 +217,7 @@ function init() {
     loaderKrajangLek.load('LaiThai_KrajangLek.glb', async function (gltf) {
         const model = gltf.scene;
         model.position.set(0, -7, -8);
-
+        krajangLek = gltf.scene;
         await renderer.compileAsync(model, camera, scene);
         model.traverse((child) => {
             if (child.isMesh) {
@@ -252,7 +253,11 @@ function init() {
                     window.open('https://www.reddit.com/user/abc3dz', '_blank');
                     break;
                 case "ObjVercel":
-                    ClickObj.rotateY(90);
+                    gsap.to(ClickObj.rotation, {
+                    y: ClickObj.rotation.y + 80,
+                    duration: 0.8,
+                    ease: "power2.inOut"                               
+                    });
                     break;
                 case "ObjITCH":
                     window.open('https://abc3dz.itch.io/', '_blank');
@@ -305,7 +310,32 @@ function init() {
                 case "ObjThread":
                     window.open('https://www.threads.com/@abczezeze', '_blank');
                     break;
-
+                case "KrajangLek":
+                    gsap.to(ClickObj.rotation, {
+                    y: ClickObj.rotation.y + 80,
+                    duration: 0.8,
+                    ease: "power2.inOut"                               
+                    });
+                    break;
+                case "KrajankYai":
+                    gsap.to(ClickObj.scale, {
+                        x: 0.5,
+                        y: 0.5,
+                        z: 0.5,
+                        duration: 0.2,
+                        ease: "power2.in",
+                        onComplete: () => {
+                            // Then scale up with bounce effect
+                            gsap.to(ClickObj.scale, {
+                                x: 1,
+                                y: 1,
+                                z: 1,
+                                duration: 1,
+                                ease: "elastic.out(1, 0.3)"
+                            });
+                        }
+                    });
+                    break;
                 // case "ObjFastwork":
                 //     window.open('https://fastwork.co/user/abczezeze', '_blank');
                 //     break;
