@@ -26,10 +26,10 @@ let lastHovered = null;
 //LaiThai art
 let krajangYai, krajangLek;
 gui = new GUI();
-var parameters = 
+var parameters =
 {
-	'Audio1': 0.1,
-	'Audio2': 0.0,
+    'Audio1': 0.1,
+    'Audio2': 0.0,
     'X': 0.0,
     'Y': 0.0,
     'Z': 0.0
@@ -40,41 +40,41 @@ init();
 
 function init() {
 
-	container = document.createElement( 'div' );
-	document.body.appendChild( container );
+    container = document.createElement('div');
+    document.body.appendChild(container);
     //camera
-	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.25, 100 );
-	camera.position.set(0, 0, 20);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 100);
+    camera.position.set(0, 0, 28);
     //scene
-	scene = new THREE.Scene();
-	scene.background = null;
+    scene = new THREE.Scene();
+    scene.background = null;
 
-	// lights
-	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-	hemiLight.position.set( 0, 0, 0 );
-	scene.add( hemiLight );
+    // lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+    hemiLight.position.set(0, 0, 0);
+    scene.add(hemiLight);
 
-	dirLight = new THREE.DirectionalLight( 0xffffff );
-	dirLight.position.set( 0, 0, 1 );
-	scene.add( dirLight );		
+    dirLight = new THREE.DirectionalLight(0xffffff);
+    dirLight.position.set(0, 0, 1);
+    scene.add(dirLight);
 
     //render
-    renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true} );
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.setAnimationLoop( animate );
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setAnimationLoop(animate);
     renderer.outputEncoding = THREE.sRGBEncoding;
-    container.appendChild( renderer.domElement );
-    
-    controls = new OrbitControls( camera, renderer.domElement );
+    container.appendChild(renderer.domElement);
+
+    controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
 
     stats = new Stats();
-    container.appendChild( stats.dom );
+    container.appendChild(stats.dom);
 
-    window.addEventListener( 'resize', onWindowResize );
-    
-	// model
+    window.addEventListener('resize', onWindowResize);
+
+    // model
     // try {
     //      loadGlb(scene, 'models/Abczezeze.glb', {x:0,y:2}, 1.7);
     //      loadGlb(scene, 'models/ITCHioObj.glb', {x:-2,y:0}, .8);
@@ -101,52 +101,52 @@ function init() {
     //     console.error("Error initializing models:", error);
     // }
     let allIcon;
-    const loaderAllIcon = new GLTFLoader().setPath( 'models/' );
-    loaderAllIcon.load( 'port4rio.glb', async function ( gltf ) {
+    const loaderAllIcon = new GLTFLoader().setPath('models/');
+    loaderAllIcon.load('port4rio.glb', async function (gltf) {
         const model = gltf.scene;
-        model.position.set(0,-2, 0);
+        model.position.set(0, -2, 0);
         allIcon = gltf.scene;
-        await renderer.compileAsync( model, camera, scene );
-        scene.add( model );
-    } );
-
+        await renderer.compileAsync(model, camera, scene);
+        scene.add(model);
+    });
+    console.log(allIcon);
     //sound
     var listener = new THREE.AudioListener();
-    var sound = new THREE.Audio( listener );
+    var sound = new THREE.Audio(listener);
     var audioLoader = new THREE.AudioLoader();
-    audioLoader.load('./sounds/Re&Ha.mp3', function( buffer ) {
-            sound.setBuffer( buffer );
-            sound.setLoop( true );
-            sound.setVolume( 0.1 );
-            sound.play();
+    audioLoader.load('./sounds/Re&Ha.mp3', function (buffer) {
+        sound.setBuffer(buffer);
+        sound.setLoop(true);
+        sound.setVolume(0.1);
+        sound.play();
     });
-    var sound2 = new THREE.Audio( listener );
-    audioLoader.load('./sounds/FaDdd.mp3', function( buffer ) {
-        sound2.setBuffer( buffer );
-        sound2.setLoop( true );
-        sound2.setVolume( 0.0 );
+    var sound2 = new THREE.Audio(listener);
+    audioLoader.load('./sounds/FaDdd.mp3', function (buffer) {
+        sound2.setBuffer(buffer);
+        sound2.setLoop(true);
+        sound2.setVolume(0.0);
         sound2.play();
     });
-    
+
     //gui
     var volumeFolder = gui.title('Sound Volume');
-    volumeFolder.add( parameters, 'Audio1' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
-                        sound.setVolume( parameters.Audio1 );
-    } );
-    volumeFolder.add( parameters, 'Audio2' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
-                        sound2.setVolume( parameters.Audio2 );
-    } );
+    volumeFolder.add(parameters, 'Audio1').min(0.0).max(1.0).step(0.01).onChange(function () {
+        sound.setVolume(parameters.Audio1);
+    });
+    volumeFolder.add(parameters, 'Audio2').min(0.0).max(1.0).step(0.01).onChange(function () {
+        sound2.setVolume(parameters.Audio2);
+    });
     volumeFolder.close();
     var positionLight = gui.addFolder('Light Position');
-    positionLight.add( parameters, 'X' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+    positionLight.add(parameters, 'X').min(-1.0).max(1.0).step(0.01).onChange(function () {
         dirLight.position.x = parameters.X;
-    } );
-    positionLight.add( parameters, 'Y' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+    });
+    positionLight.add(parameters, 'Y').min(-1.0).max(1.0).step(0.01).onChange(function () {
         dirLight.position.y = parameters.Y;
-    } );
-    positionLight.add( parameters, 'Z' ).min( -1.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+    });
+    positionLight.add(parameters, 'Z').min(-1.0).max(1.0).step(0.01).onChange(function () {
         dirLight.position.z = parameters.Z;
-    } );
+    });
     //positionLight.close();
 
     //game stuff
@@ -170,7 +170,7 @@ function init() {
     //     tek5Mesh = mesh;
     //     scene.add(tek5Mesh);
     // });
-    
+
 
     // gameStuff('./img/MomGame-min.png',3,1.7,'MomGame',5,-6+2).then((mesh) => {
     //     MomGame = mesh;
@@ -194,12 +194,12 @@ function init() {
     // });
 
     //Thai art
-    const loaderKrajangYai = new GLTFLoader().setPath( 'models/' );
-    loaderKrajangYai.load( 'LaiThai_KrajangYai.glb', async function ( gltf ) {
+    const loaderKrajangYai = new GLTFLoader().setPath('models/');
+    loaderKrajangYai.load('LaiThai_KrajangYai.glb', async function (gltf) {
         const model = gltf.scene;
-        model.position.set(0,-11,-16);
+        model.position.set(0, -11, -16);
         krajangYai = gltf.scene;
-        await renderer.compileAsync( model, camera, scene );
+        await renderer.compileAsync(model, camera, scene);
         model.traverse((child) => {
             if (child.isMesh) {
                 const material = child.material;
@@ -210,26 +210,26 @@ function init() {
                 }
             }
         });
-        scene.add( model );
-    } );
-    const loaderKrajangLek = new GLTFLoader().setPath( 'models/' );
-    loaderKrajangLek.load( 'LaiThai_KrajangLek.glb', async function ( gltf ) {
+        scene.add(model);
+    });
+    const loaderKrajangLek = new GLTFLoader().setPath('models/');
+    loaderKrajangLek.load('LaiThai_KrajangLek.glb', async function (gltf) {
         const model = gltf.scene;
-        model.position.set(0,-7,-8);
-        
-        await renderer.compileAsync( model, camera, scene );
+        model.position.set(0, -7, -8);
+
+        await renderer.compileAsync(model, camera, scene);
         model.traverse((child) => {
             if (child.isMesh) {
                 const material = child.material;
-                
+
                 if (material) {
                     material.transparent = true;
                     material.opacity = 0.5;
                 }
             }
         });
-        scene.add( model );
-    } );
+        scene.add(model);
+    });
 
     //Link
     window.addEventListener('click', (event) => {
@@ -238,22 +238,21 @@ function init() {
 
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.children);
-        
+
         if (intersects.length > 0) {
             const ClickObj = intersects[0].object;
-            //console.log(ClickObj);
-            if(ClickObj.parent.name == "ObjAbczezeze")
-                window.open('https://web.facebook.com/cherncheu/' ,'_blank');
+            console.log(ClickObj);
+            if (ClickObj.parent.name == "ObjAbczezeze")
+                window.open('https://web.facebook.com/cherncheu/', '_blank');
             switch (ClickObj.name) {
                 case "ObjGithub":
                     window.open('https://github.com/abc3dz', '_blank');
                     break;
                 case "ObjReddit":
                     window.open('https://www.reddit.com/user/abc3dz', '_blank');
-                   break;
+                    break;
                 case "ObjVercel":
-                    console.log(vercelLoad);
-                    vercelTurn = true;
+                    ClickObj.rotateY(90);
                     break;
                 case "ObjITCH":
                     window.open('https://abc3dz.itch.io/', '_blank');
@@ -297,9 +296,16 @@ function init() {
                 case "ObjTumblr":
                     window.open('https://www.tumblr.com/abc3dz', '_blank');
                     break;
-                case "ObjVimeo":
-                    window.open('https://vimeo.com/user84261275', '_blank');
+                case "ObjLinkedin":
+                    window.open('https://www.linkedin.com/in/abc3dz-ddd-b54723326/', '_blank');
                     break;
+                case "ObjIG":
+                    window.open('https://www.instagram.com/abczezeze/', '_blank');
+                    break;
+                case "ObjThread":
+                    window.open('https://www.threads.com/@abczezeze', '_blank');
+                    break;
+
                 // case "ObjFastwork":
                 //     window.open('https://fastwork.co/user/abczezeze', '_blank');
                 //     break;
@@ -336,28 +342,28 @@ function init() {
                 //     break;
                 default:
                     console.log('No action assigned for this object.');
-                }
             }
+        }
     });
 
     window.addEventListener('mousemove', (event) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
+
         raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(scene.children, true); 
-    
+        const intersects = raycaster.intersectObjects(scene.children, true);
+
         if (intersects.length > 0) {
             const hoverObj = intersects[0].object;
             //console.log(hoverObj);
-            if(hoverObj.name === "KrajankYai") return;
-    
+            if (hoverObj.name === "KrajankYai") return;
+
             if (lastHovered && lastHovered !== hoverObj) {
                 lastHovered.material.color.set(0xffffff);
             }
-    
+
             if (hoverObj.material && hoverObj.material.color) {
-                hoverObj.material.color.set(Math.random()*0xffffff);
+                hoverObj.material.color.set(Math.random() * 0xffffff);
                 lastHovered = hoverObj;
             }
         } else {
@@ -369,10 +375,10 @@ function init() {
     });
 }
 
-function gameStuff(texture, sizeX, sizeY, name, posX, posY){
+function gameStuff(texture, sizeX, sizeY, name, posX, posY) {
     return new Promise((resolve) => {
         const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(texture, function(tex) {
+        textureLoader.load(texture, function (tex) {
             const geometry = new THREE.BoxGeometry(sizeX, sizeY);
             const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: tex });
             gameMesh = new THREE.Mesh(geometry, material);
@@ -386,31 +392,29 @@ function gameStuff(texture, sizeX, sizeY, name, posX, posY){
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 let clock = new THREE.Clock();
 function animate() {
     //requestAnimationFrame(animate);
     let delta = clock.getDelta();
 
-    if(vercelTurn)vercelLoad.rotation.y += 1 * delta;
+    if (tek1Mesh) tek1Mesh.rotation.y += 0.4 * delta;
+    if (tek2Mesh) tek2Mesh.rotation.y += 0.31 * delta;
+    if (tek3Mesh) tek3Mesh.rotation.y += 0.22 * delta;
+    if (tek4Mesh) tek4Mesh.rotation.y += 0.53 * delta;
 
-    if(tek1Mesh)tek1Mesh.rotation.y += 0.4 * delta;
-    if(tek2Mesh)tek2Mesh.rotation.y += 0.31 * delta;
-    if(tek3Mesh)tek3Mesh.rotation.y += 0.22 * delta;
-    if(tek4Mesh)tek4Mesh.rotation.y += 0.53 * delta;
+    if (tek5Mesh) tek5Mesh.rotation.y += 0.34 * delta;
+    if (RandGeo) RandGeo.rotation.y += 0.42 * delta;
+    if (MomGame) MomGame.rotation.y += 0.39 * delta;
 
-    if(tek5Mesh)tek5Mesh.rotation.y += 0.34 * delta;
-    if(RandGeo)RandGeo.rotation.y += 0.42 * delta;
-    if(MomGame)MomGame.rotation.y += 0.39 * delta;
-
-    if(Lgg)Lgg.rotation.y += 0.33 * delta;
-    if(ClickNaja)ClickNaja.rotation.y += 0.44 * delta;
-    if(GeometricBowling)GeometricBowling.rotation.y += 0.55 * delta;
-    if(YingLeak)YingLeak.rotation.y += 0.37 * delta;
+    if (Lgg) Lgg.rotation.y += 0.33 * delta;
+    if (ClickNaja) ClickNaja.rotation.y += 0.44 * delta;
+    if (GeometricBowling) GeometricBowling.rotation.y += 0.55 * delta;
+    if (YingLeak) YingLeak.rotation.y += 0.37 * delta;
 
     //controls.update();
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
     stats.update();
 }
 animate();
