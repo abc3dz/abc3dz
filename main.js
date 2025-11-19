@@ -244,7 +244,7 @@ function init() {
             const ClickObj = intersects[0].object;
             console.log(ClickObj);
             if (ClickObj.parent.name == "ObjAbczezeze")
-                window.open('https://web.facebook.com/cherncheu/', '_blank');
+                window.open('https://web.facebook.com/juecheu/', '_blank');
             switch (ClickObj.name) {
                 case "ObjGithub":
                     window.open('https://github.com/abc3dz', '_blank');
@@ -284,7 +284,7 @@ function init() {
                     window.open('https://www.youtube.com/@abc3dz', '_blank');
                     break;
                 case "ObjFb":
-                    window.open('https://web.facebook.com/profile.php?id=61572432430115', '_blank');
+                    window.open('https://web.facebook.com/abc3dz', '_blank');
                     break;
                 case "ObjX":
                     window.open('https://x.com/abc3dz', '_blank');
@@ -302,13 +302,16 @@ function init() {
                     window.open('https://www.tumblr.com/abc3dz', '_blank');
                     break;
                 case "ObjLinkedin":
-                    window.open('https://www.linkedin.com/in/abc3dz-ddd-b54723326/', '_blank');
+                    window.open('https://www.linkedin.com/in/abc3dz/', '_blank');
                     break;
                 case "ObjIG":
-                    window.open('https://www.instagram.com/abczezeze/', '_blank');
+                    window.open('https://www.instagram.com/abc3dzddd', '_blank');
                     break;
                 case "ObjThread":
-                    window.open('https://www.threads.com/@abczezeze', '_blank');
+                    window.open('https://www.threads.com/@abc3dzddd', '_blank');
+                    break;
+                case "ObjTiktok":
+                    window.open('https://www.tiktok.com/@abc3dzddd', '_blank');
                     break;
                 case "KrajangLek":
                     gsap.to(ClickObj.rotation, {
