@@ -103,7 +103,7 @@ function init() {
     // }
     let allIcon;
     const loaderAllIcon = new GLTFLoader().setPath('models/');
-    loaderAllIcon.load('port4rio.glb', async function (gltf) {
+    loaderAllIcon.load('linktree3d.glb', async function (gltf) {
         const model = gltf.scene;
         model.position.set(0, -2, 0);
         allIcon = gltf.scene;
@@ -312,6 +312,15 @@ function init() {
                     break;
                 case "ObjTiktok":
                     window.open('https://www.tiktok.com/@abc3dzddd', '_blank');
+                    break;
+                case "ObjSteam":
+                    window.open('https://steamcommunity.com/id/abc3dz/', '_blank');
+                    break;
+                case "ObjWeibo":
+                    window.open('https://www.weibo.com/u/6508462276', '_blank');
+                    break;
+                case "ObjBilibili":
+                    window.open('https://www.bilibili.tv/en/space/1538671760', '_blank');
                     break;
                 case "KrajangLek":
                     gsap.to(ClickObj.rotation, {
