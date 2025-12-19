@@ -75,32 +75,6 @@ function init() {
 
     window.addEventListener('resize', onWindowResize);
 
-    // model
-    // try {
-    //      loadGlb(scene, 'models/Abczezeze.glb', {x:0,y:2}, 1.7);
-    //      loadGlb(scene, 'models/ITCHioObj.glb', {x:-2,y:0}, .8);
-    //      loadGlb(scene, 'models/GamejoltObj.glb', {x:-.5,y:0});
-    //      loadGlb(scene, 'models/IndieDBObj.glb', {x:1,y:0});
-    //      loadGlb(scene, 'models/PlayStoreObj.glb', {x:2.5,y:0},.6);
-    //      loadGlb(scene, 'models/SketchfabObj.glb', {x:-2,y:-1.5});
-    //      loadGlb(scene, 'models/SoundcloudObj.glb', {x:-.7,y:-1.5});
-    //      loadGlb(scene, 'models/GgDriveObj.glb', {x:1,y:-1.5});
-    //      loadGlb(scene, 'models/YoutubeObj.glb', {x:2.4,y:-1.5});
-    //      loadGlb(scene, 'models/FbObj.glb', {x:-2,y:-3});
-    //      loadGlb(scene, 'models/XObj.glb', {x:-.7,y:-3});
-    //      loadGlb(scene, 'models/MastodonObj.glb', {x:1,y:-3},.6);
-    //      loadGlb(scene, 'models/BlueskyObj.glb', {x:2.4,y:-3});
-    //      loadGlb(scene, 'models/VercelObj.glb', {x:-2.2,y:2},1.3).then((gltfScene) => {vercelLoad = gltfScene;});
-    //      loadGlb(scene, 'models/GithubObj.glb', {x:2,y:3.5});
-    //      loadGlb(scene, 'models/DeviantartObj.glb', {x:-2,y:-4.8});
-    //      loadGlb(scene, 'models/TumblrObj.glb', {x:-.8,y:-4.8});
-    //      loadGlb(scene, 'models/VimeoObj.glb', {x:.4,y:-4.8});
-    //      loadGlb(scene, 'models/FastworkObj.glb', {x:-2.2,y:3.5},1.3);
-    //      loadGlb(scene, 'models/RedditObj.glb', {x:2,y:2});
-    //     // loadGlb(scene, 'models/LinkedinObj.glb', {x:2,y:-4.8});
-    // } catch (error) {
-    //     console.error("Error initializing models:", error);
-    // }
     let allIcon;
     const loaderAllIcon = new GLTFLoader().setPath('models/');
     loaderAllIcon.load('linktree3d.glb', async function (gltf) {
@@ -150,50 +124,6 @@ function init() {
     });
     //positionLight.close();
 
-    //game stuff
-    // gameStuff('./img/Tek1-min.png',3,1.7,"Tek1",-5,2+2).then((mesh) => {
-    //     tek1Mesh = mesh;
-    //     scene.add(tek1Mesh);
-    // });
-    // gameStuff('./img/Tek2-min.png',3,1.7,'Tek2',-5,0+2).then((mesh) => {
-    //     tek2Mesh = mesh;
-    //     scene.add(tek2Mesh);
-    // });
-    // gameStuff('./img/Tek3-min.png',3,1.7,'Tek3',-5,-2+2).then((mesh) => {
-    //     tek3Mesh = mesh
-    //     scene.add(tek3Mesh);
-    // });
-    // gameStuff('./img/Tek4-min.png',2.5,1.7,'Tek4',-5,-4+2).then((mesh) => {
-    //     tek4Mesh = mesh;
-    //     scene.add(tek4Mesh);
-    // });
-    // gameStuff('./img/Tek5-min.png',3,1.7,'Tek5',-5,-6+2).then((mesh) => {
-    //     tek5Mesh = mesh;
-    //     scene.add(tek5Mesh);
-    // });
-
-
-    // gameStuff('./img/MomGame-min.png',3,1.7,'MomGame',5,-6+2).then((mesh) => {
-    //     MomGame = mesh;
-    //     scene.add(MomGame);
-    // });
-    // gameStuff('./img/Lgg-min.png',3,1.7,'Lgg',5,-4+2).then((mesh) => {
-    //     Lgg = mesh;
-    //     scene.add(Lgg);
-    // });
-    // gameStuff('./img/ClickNaja-min.png',3,1.7,'ClickNaja',5,-2+2).then((mesh) => {
-    //     ClickNaja = mesh;
-    //     scene.add(ClickNaja);
-    // });
-    // gameStuff('./img/GeometricBowling-min.png',3,1.7,'GeometricBowling',5,0+2).then((mesh) => {
-    //     GeometricBowling = mesh;
-    //     scene.add(GeometricBowling);
-    // });
-    // gameStuff('./img/Yingleak-min.png',3,1.7,'Yingleak',5,2+2).then((mesh) => {
-    //     YingLeak = mesh;
-    //     scene.add(YingLeak);
-    // });
-
     //Thai art
     const loaderKrajangYai = new GLTFLoader().setPath('models/');
     loaderKrajangYai.load('LaiThai_KrajangYai.glb', async function (gltf) {
@@ -231,6 +161,69 @@ function init() {
         });
         scene.add(model);
     });
+
+    // --- ฟังก์ชันสร้างหิมะตก (Particle System + GSAP) ---
+function createFallingSnow() {
+    const flakeCount = 1500; // จำนวนเกล็ดหิมะ (ยิ่งเยอะยิ่งหนา)
+    const positionArray = new Float32Array(flakeCount * 3); // เก็บตำแหน่ง x,y,z ของทุกเม็ด
+
+    // 1. สุ่มตำแหน่งเริ่มต้นให้เกล็ดหิมะ
+    for (let i = 0; i < flakeCount * 3; i += 3) {
+        // กระจายตัวในแนวแกน X และ Z กว้างๆ (เช่น -25 ถึง 25)
+        positionArray[i] = (Math.random() - 0.5) * 50;     // x
+        
+        // กระจายตัวในแนวแกน Y สูงๆ ต่ำๆ คละกันไป (เช่น -30 ถึง 30)
+        // เพื่อให้เวลาหิมะตกลงมา มันจะไม่เห็นเป็นแผงสี่เหลี่ยมชัดเจนเกินไป
+        positionArray[i + 1] = (Math.random() - 0.5) * 60; // y
+        
+        positionArray[i + 2] = (Math.random() - 0.5) * 50; // z
+    }
+
+    // 2. สร้าง Geometry และ Material สำหรับ Particles
+    const snowGeo = new THREE.BufferGeometry();
+    snowGeo.setAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+
+    const snowMat = new THREE.PointsMaterial({
+        size: 0.2,          // ขนาดเกล็ดหิมะ (ลองปรับดูครับ 0.1 - 0.5)
+        color: 0xffffff,    // สีขาว
+        transparent: true,  // ให้มันโปร่งใสได้
+        opacity: 0.8,       // ความจาง
+        // sizeAttenuation: true // (ค่าปกติ true) ทำให้เม็ดที่อยู่ไกลดูเล็กลง สมจริง
+    });
+
+    // 3. สร้างระบบอนุภาค (Points)
+    const snowSystem = new THREE.Points(snowGeo, snowMat);
+    scene.add(snowSystem);
+
+    // --- GSAP Animation : ทำให้หิมะตก ---
+    
+    // ตั้งค่าเริ่มต้นให้กลุ่มหิมะอยู่สูงขึ้นไปนิดหน่อย
+    snowSystem.position.y = 30;
+
+    // ใช้ GSAP สั่งให้ "ทั้งกลุ่ม" เคลื่อนที่ลงมา
+    gsap.to(snowSystem.position, {
+        y: -30,           // เคลื่อนที่ลงมาจนถึงตำแหน่ง y = -30 (ระยะทางรวม 60 หน่วย)
+        duration: 15,     // ใช้เวลา 15 วินาที (ยิ่งเลขเยอะ หิมะยิ่งตกช้า)
+        ease: "none",     // ความเร็วคงที่ (หิมะตกความเร็วสม่ำเสมอ)
+        repeat: -1,       // ทำซ้ำตลอดไป (Infinite Loop)
+        onRepeat: () => {
+            // **หัวใจสำคัญ**: เมื่อตกจนสุดทางแล้ว ให้ดีดกลับไปที่ตำแหน่งเริ่มต้นทันที
+            // ทำให้ดูเหมือนหิมะตกต่อเนื่องไม่สิ้นสุด
+            snowSystem.position.y = 30;
+        }
+    });
+
+    // (แถม) เพิ่มการหมุนช้าๆ ให้กลุ่มหิมะ ดูเหมือนมีลมพัดเบาๆ
+    gsap.to(snowSystem.rotation, {
+        y: Math.PI * 2, // หมุนครบ 1 รอบ
+        duration: 60,   // ใช้เวลานานๆ 
+        repeat: -1,
+        ease: "none"
+    });
+}
+
+// เรียกใช้งานฟังก์ชัน
+createFallingSnow();
 
     //Link
     window.addEventListener('click', (event) => {
@@ -348,40 +341,6 @@ function init() {
                         }
                     });
                     break;
-                // case "ObjFastwork":
-                //     window.open('https://fastwork.co/user/abczezeze', '_blank');
-                //     break;
-                //game stuff
-                // case "Tek1":
-                //     window.open('https://www.kongregate.com/games/ABC3Dz/tek-game', '_blank');
-                //     break;
-                // case "Tek2":
-                //     window.open('https://abczezeze.itch.io/tekkk', '_blank');
-                //     break;
-                // case "Tek3":
-                //     window.open('https://play.google.com/store/apps/details?id=com.abczezeze.tek', '_blank');
-                //     break;
-                // case "Tek4":
-                //     window.open('https://gamejolt.com/games/tekkk/874075', '_blank');
-                //     break;
-                // case "Tek5":
-                //     window.open('https://abczezeze.github.io/TekGame/', '_blank');
-                //     break;
-                // case "MomGame":
-                //     window.open('https://flowlab.io/game/play/895886', '_blank');
-                //     break;
-                // case "Lgg":
-                //     window.open('https://www.indiedb.com/games/lgg', '_blank');
-                //     break;
-                // case "ClickNaja":
-                //     window.open('https://github.com/abczezeze/ClickNaja', '_blank');
-                //     break;
-                // case "GeometricBowling":
-                //     window.open('https://github.com/abczezeze/GeometricBowling', '_blank');
-                //     break;
-                // case "Yingleak":
-                //     window.open('https://abczezeze.github.io/YingLak/', '_blank');
-                //     break;
                 default:
                     console.log('No action assigned for this object.');
             }
@@ -414,20 +373,6 @@ function init() {
                 lastHovered = null;
             }
         }
-    });
-}
-
-function gameStuff(texture, sizeX, sizeY, name, posX, posY) {
-    return new Promise((resolve) => {
-        const textureLoader = new THREE.TextureLoader();
-        textureLoader.load(texture, function (tex) {
-            const geometry = new THREE.BoxGeometry(sizeX, sizeY);
-            const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, map: tex });
-            gameMesh = new THREE.Mesh(geometry, material);
-            gameMesh.position.set(posX, posY, 0);
-            gameMesh.name = name;
-            resolve(gameMesh);
-        });
     });
 }
 
